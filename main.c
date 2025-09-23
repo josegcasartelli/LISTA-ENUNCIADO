@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include "aux.h"
 
-
 int main(int argc, char *argv[])
 {
 	if (argc != 5) {
