@@ -79,6 +79,8 @@ bool lista_insertar(lista_t *lista, void *elemento, size_t posicion)
 	if (lista->cantidad == 0) {
 		lista->primero = nuevo_nodo;
 		lista->ultimo = nuevo_nodo;
+		lista->cantidad++;
+		return true;
 	}
 
 	else if (posicion == 0) {
