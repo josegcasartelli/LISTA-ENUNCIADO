@@ -43,6 +43,8 @@ size_t lista_cantidad(lista_t *lista)
 
 bool lista_agregar(lista_t *lista, void *dato)
 {
+	if (!lista)
+		return false;
 	nodo_t *nuevo_nodo = malloc(sizeof(nodo_t));
 	if (!nuevo_nodo)
 		return false;
@@ -74,12 +76,15 @@ bool lista_insertar(lista_t *lista, void *elemento, size_t posicion)
 	nuevo_nodo->dato = elemento;
 	nuevo_nodo->siguiente = NULL;
 
-	if (posicion == 0) {
+	if (lista->cantidad == 0) {
+		lista->primero = nuevo_nodo;
+		lista->ultimo = nuevo_nodo;
+	}
+
+	else if (posicion == 0) {
 		nuevo_nodo->siguiente = lista->primero;
 		lista->primero = nuevo_nodo;
-		if (lista->cantidad == 0) {
-			lista->ultimo = nuevo_nodo;
-		}
+		
 	} else if (posicion == lista->cantidad) {
 		lista->ultimo->siguiente = nuevo_nodo;
 		lista->ultimo = nuevo_nodo;
@@ -170,9 +175,9 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*f)(void *, void *),
 	size_t aplicados = 0;
 
 	while (actual) {
+		aplicados++;
 		if (!f(actual->dato, extra))
 			break;
-		aplicados++;
 		actual = actual->siguiente;
 	}
 
