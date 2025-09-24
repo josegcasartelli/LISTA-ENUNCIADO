@@ -66,36 +66,35 @@ bool lista_agregar(lista_t *lista, void *dato)
 
 bool lista_insertar(lista_t *lista, void *elemento, size_t posicion)
 {
-	if (!lista || posicion >= lista->cantidad)
+	if (!lista || posicion > lista->cantidad)
 		return false;
 
 	if (posicion == lista->cantidad)
 		return lista_agregar(lista, elemento);
 
-	if (posicion == 0) {
-		nodo_t *nuevo_nodo = malloc(sizeof(nodo_t));
-		if (!nuevo_nodo)
-			return false;
-
-		nuevo_nodo->dato = elemento;
-		nuevo_nodo->siguiente = lista->primero;
-		lista->primero = nuevo_nodo;
-		lista->cantidad++;
-		return true;
-	}
-
-	nodo_t *actual = lista->primero;
-	for (size_t i = 0; i < posicion - 1; i++)
-		actual = actual->siguiente;
-
 	nodo_t *nuevo_nodo = malloc(sizeof(nodo_t));
 	if (!nuevo_nodo)
 		return false;
+
 	nuevo_nodo->dato = elemento;
-	nuevo_nodo->siguiente = actual->siguiente;
-	actual->siguiente = nuevo_nodo;
-	lista->cantidad++;
-	return true;
+
+	if (posicion == 0) {
+		nuevo_nodo->siguiente = lista->primero;
+		lista->primero = nuevo_nodo;
+
+		if (lista->cantidad == 0)
+			lista->ultimo = nuevo_nodo;
+
+	}
+
+	else {
+		nodo_t *actual = lista->primero;
+		for (size_t i = 0; i < posicion - 1; i++)
+			actual = actual->siguiente;
+
+		nuevo_nodo->siguiente = actual->siguiente;
+		actual->siguiente = nuevo_nodo;
+	}
 
 	lista->cantidad++;
 	return true;
