@@ -55,10 +55,10 @@ void pruebas_lista_insertar_en_lista_vacia()
 	int a = 1;
 
 	bool insertado = lista_insertar(lista, &a, 0);
-	pa2m_afirmar(insertado, "se inserto el elemento");
-	pa2m_afirmar(lista_cantidad(lista) == 1, "la lista tiene 1 elemento");
-	pa2m_afirmar(lista_buscar_elemento(lista, 0) == &a,
-		     "el elemento esta insertado correcctamente");
+	pa2m_afirmar(!insertado, "No se puede insertar en una lista vacia");
+	pa2m_afirmar(lista_cantidad(lista) == 0, "la lista esta vacia");
+	pa2m_afirmar(lista_buscar_elemento(lista, 0) == NULL,
+		     "No hay ningun elemento en la posicion 0");
 
 	lista_destruir(lista);
 }
@@ -67,8 +67,9 @@ void pruebas_lista_insertar_al_final()
 {
 	lista_t *lista = lista_crear();
 	int a = 1, b = 2;
-	lista_insertar(lista, &a, 0);
-	lista_insertar(lista, &b, 1);
+	
+	pa2m_afirmar(lista_agregar(lista, &a), "agrego primer elemento con agregar");
+	pa2m_afirmar(lista_insertar(lista, &b, 1), "Inserto al final");
 
 	pa2m_afirmar(lista_cantidad(lista) == 2, "la lista tiene 2 elementos");
 	pa2m_afirmar(lista_buscar_elemento(lista, 1) == &b,
@@ -98,7 +99,7 @@ void pruebas_orden_correcto_despues_de_varios_insertar()
 	lista_t *lista = lista_crear();
 	int a = 1, b = 2, c = 3, d = 4;
 
-	lista_insertar(lista, &a, 0);
+	lista_agregar(lista, &a);
 	lista_insertar(lista, &b, 1);
 	lista_insertar(lista, &c, 2);
 	lista_insertar(lista, &d, 1);
