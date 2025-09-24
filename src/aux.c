@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "src/lista.h"
+#include "lista.h"
 
 bool buscar_nombre(void *elemento, void *extra)
 {

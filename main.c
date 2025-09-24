@@ -1,9 +1,9 @@
 #include "src/lista.h"
 #include "src/cola.h"
 #include "src/pila.h"
-#include "tp1.h"
+#include "src/tp1.h"
 #include <stdio.h>
-#include "aux.h"
+#include "src/aux.h"
 
 int main(int argc, char *argv[])
 {

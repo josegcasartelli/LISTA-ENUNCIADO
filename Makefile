@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Wconversion -std=c99 -pedantic -g
-SRC = main.c tp1.c aux.c src/lista.c src/pila.c src/cola.c
+SRC = main.c src/tp1.c src/aux.c src/lista.c src/pila.c src/cola.c
 BIN = main
 
 all: $(BIN)
