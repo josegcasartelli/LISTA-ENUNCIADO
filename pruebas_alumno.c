@@ -67,8 +67,9 @@ void pruebas_lista_insertar_al_final()
 {
 	lista_t *lista = lista_crear();
 	int a = 1, b = 2;
-	
-	pa2m_afirmar(lista_agregar(lista, &a), "agrego primer elemento con agregar");
+
+	pa2m_afirmar(lista_agregar(lista, &a),
+		     "agrego primer elemento con agregar");
 	pa2m_afirmar(lista_insertar(lista, &b, 1), "Inserto al final");
 
 	pa2m_afirmar(lista_cantidad(lista) == 2, "la lista tiene 2 elementos");

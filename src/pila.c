@@ -26,7 +26,7 @@ bool pila_apilar(pila_t *pila, void *elemento)
 
 	if (lista_cantidad(pila->lista) == 0)
 		return lista_agregar(pila->lista, elemento);
-		
+
 	return lista_insertar(pila->lista, elemento, 0);
 }
 
