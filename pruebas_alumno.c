@@ -31,7 +31,7 @@ void pruebas_lista_agregar_y_buscar()
 	lista_destruir(lista);
 }
 
-void pruebas_lista_insertar_y_eliminar()
+void pruebas_lista_agregar_y_eliminar()
 {
 	lista_t *lista = lista_crear();
 	int a = 1, b = 2, c = 3;
@@ -45,6 +45,73 @@ void pruebas_lista_insertar_y_eliminar()
 
 	void *eliminado = lista_eliminar_elemento(lista, 1);
 	pa2m_afirmar(eliminado == &b, "Se elimino el elemento correcto");
+
+	lista_destruir(lista);
+}
+
+void pruebas_lista_insertar_en_lista_vacia()
+{
+	lista_t *lista = lista_crear();
+	int a = 1;
+
+	bool insertado = lista_insertar(lista, &a, 0);
+	pa2m_afirmar(insertado, "se inserto el elemento");
+	pa2m_afirmar(lista_cantidad(lista) == 1, "la lista tiene 1 elemento");
+	pa2m_afirmar(lista_buscar_elemento(lista, 0) == &a,
+		     "el elemento esta insertado correcctamente");
+
+	lista_destruir(lista);
+}
+
+void pruebas_lista_insertar_al_final()
+{
+	lista_t *lista = lista_crear();
+	int a = 1, b = 2;
+	lista_insertar(lista, &a, 0);
+	lista_insertar(lista, &b, 1);
+
+	pa2m_afirmar(lista_cantidad(lista) == 2, "la lista tiene 2 elementos");
+	pa2m_afirmar(lista_buscar_elemento(lista, 1) == &b,
+		     "el elemento esta insertado correcctamente");
+
+	lista_destruir(lista);
+}
+
+void pruebas_lista_insertar_al_principio()
+{
+	lista_t *lista = lista_crear();
+	int a = 1, b = 2;
+	lista_agregar(lista, &a);
+	lista_insertar(lista, &b, 0);
+
+	pa2m_afirmar(lista_cantidad(lista) == 2, "la lista tiene 2 elementos");
+	pa2m_afirmar(lista_buscar_elemento(lista, 0) == &b,
+		     "el nuevo primer elemento es correcto");
+	pa2m_afirmar(lista_buscar_elemento(lista, 1) == &a,
+		     "el viejo primer elemento ahora es el segundo");
+
+	lista_destruir(lista);
+}
+
+void pruebas_orden_correcto_despues_de_varios_insertar()
+{
+	lista_t *lista = lista_crear();
+	int a = 1, b = 2, c = 3, d = 4;
+
+	lista_insertar(lista, &a, 0);
+	lista_insertar(lista, &b, 1);
+	lista_insertar(lista, &c, 2);
+	lista_insertar(lista, &d, 1);
+
+	pa2m_afirmar(lista_cantidad(lista) == 4, "la lista tiene 4 elementos");
+	pa2m_afirmar(lista_buscar_elemento(lista, 0) == &a,
+		     "el nuevo primer elemento es correcto");
+	pa2m_afirmar(lista_buscar_elemento(lista, 1) == &d,
+		     "el nuevo segundo elemento es correcto");
+	pa2m_afirmar(lista_buscar_elemento(lista, 2) == &b,
+		     "el viejo segundo elemento ahora es el tercero");
+	pa2m_afirmar(lista_buscar_elemento(lista, 3) == &c,
+		     "el viejo tercer elemento ahora es el cuarto");
 
 	lista_destruir(lista);
 }
@@ -166,7 +233,11 @@ int main()
 	pa2m_nuevo_grupo("============== LISTA ===============");
 	prueba_lista_crear();
 	pruebas_lista_agregar_y_buscar();
-	pruebas_lista_insertar_y_eliminar();
+	pruebas_lista_agregar_y_eliminar();
+	pruebas_lista_insertar_en_lista_vacia();
+	pruebas_lista_insertar_al_principio();
+	pruebas_lista_insertar_al_final();
+	pruebas_orden_correcto_despues_de_varios_insertar();
 	pruebas_lista_buscar_posicion();
 	pruebas_lista_con_cada_elemento();
 	pruebas_iterador_externo();
