@@ -80,23 +80,35 @@ lista_agregar(lista, &a);
 
 En la lista también está implementada la función lista_insertar() que recibe la lista, un elemento y la posición en la que se quiera insertar.  Si la lista tiene cero elementos o la posición en la que se quiere insertar es mayor a la cantidad de elementos se devuelve false.  Esto es porque no podemos insertar en una lista donde no exista la posición.  En el caso de que la posición pasada sea igual a la cantidad de elementos, entonces se puede utilizar la función lista_agregar() que va insertar el nuevo nodo al final de la lista de forma O(1) ya que el último nodo actual contiene un puntero siguiente que podemos usar para apuntar al nuevo nodo.  Algo parecido pasa si la posición en la que se quiere insertar es 0, ya que la estructura de la lista guarda un puntero al primer nodo.  Es por esto que esta operación también es de O(1).  En los demás casos se tiene que iterar sobre la lista con un for hasta llegar a la posición deseada.  Esto se puede ver en el código de abajo y esta operación tiene complejidad O(n).
 
-
 ```c
 for (size_t i = 0; i < posicion - 1; i++)
 		actual = actual->siguiente;
 ```
 
+Lista_eliminar_elemento() funciona de manera parecida a lista_insertar(), y en este caso si se quiere eliminar el primer elemento también seria de complejidad O(1).  La diferencia es que eliminar el último elemento como cualquier otro que no sea el primero es una operación O(n).  Esto es porque la lista es simplemente enlazada y por lo tanto no tengo un puntero al anterior. Esto hace que aunque pueda eliminar el último nodo, no puedo hacer que el puntero último apunte al anteúltimo nodo porque no tengo un puntero a ese ante último nodo.  Es por esto que se recorre la lista hasta la posición dada y se copia el contenido en el nodo_a_eliminar creado para luego ser liberado. 
+
+  
+<div align="center">
+  <img src="img/lista_eliminar.png" style="height:200px; width:auto;">
+</div>
+
+
+Otra de las funciones de la lista es lista_buscar_posicion().  A esta función se le pasa un elemento y una función comparadora.  Recorre la lista con la función comparador hasta encontrar el elemento buscado de manera que la complejidad es O(n).  Esto es porque utiliza un while donde recorre cada elemento de la lista mediante el puntero al siguiente que tienen los nodos.  Si el comparador devuelve cero entonces no hay diferencia entre los elementos comparados y por lo tanto se encontró y se devuelve la posición que no es nada más que el índice sobre el que se está iterando en ese momento.
+
+
 
 La pila la implemente usando la estructura de la lista con la diferencia de como es una lista los elementos se apilan y desapilan desde el tope.  Es decir solamente se puede agregar a la posición 0, y eliminar de la posición 0.  Las funciones de la pila apilar y desapilar reutilizan las funciones lista_insertar() y lista_eliminar_elemento() y las operaciones tienen complejidad O(n).  Esto es por como mencione antes la estructura de la lista que contiene un puntero que apunta al primer elemento de la lista o en este caso la pila.  Abajo se podrá ver como el 3 fue el último en ser ingresado por lo tanto está en el tope.  Luego cuando se desapila, el 3 se va y el nuevo tope es el 2.
 
-<div align="center">
-<img width="70%" src="img/pila_apilar.png">
-</div>
 
 <div align="center">
-<img width="70%" src="img/pila_desapilar_tope.png">
+  <img src="img/pila_apilar_img.png" style="height:200px; width:auto;">
 </div>
 
+
+
+<div align="center">
+  <img src="img/pila_desapilar_tope.png" style="height:200px; width:auto;">
+</div>
 
 Estructuras de memoria con ejemplos de código
 
@@ -116,13 +128,14 @@ La cola al igual que la pila se implementó con la estructura de la lista.  La d
 
 
 <div align="center">
-<img width="70%" src="img/cola_img_encolar.png">
+  <img src="img/cola_img_encolar.png" style="height:200px; width:auto;">
 </div>
 
 
 <div align="center">
-<img width="70%" src="img/cola_img_desencolar.png">
+  <img src="img/cola_img_desencolar.png" style="height:200px; width:auto;">
 </div>
+
 
 Estructuras de memoria con ejemplos de código
 
