@@ -3,6 +3,127 @@
 #include "src/cola.h"
 #include "src/pila.h"
 
+void pruebas_lista_errores()
+{
+	pa2m_afirmar(lista_vacia(NULL) == true,
+		     "lista_vacia(NULL) devuelve true");
+	pa2m_afirmar(lista_cantidad(NULL) == 0,
+		     "lista_cantidad(NULL) devuelve 0");
+
+	int a = 0;
+	void *p = &a;
+	pa2m_afirmar(lista_agregar(NULL, p) == false,
+		     "lista_agregar con NULL devuelve false");
+	pa2m_afirmar(lista_insertar(NULL, p, 0) == false,
+		     "lista_insertar con NULL devuelve false");
+	pa2m_afirmar(lista_eliminar_elemento(NULL, 0) == NULL,
+		     "lista_eliminar_elemento con NULL devuleve NULL");
+	pa2m_afirmar(lista_buscar_elemento(NULL, 0) == NULL,
+		     "lista_buscar_elemento con NULL devuelve NULL");
+	pa2m_afirmar(lista_buscar_posicion(
+			     NULL, p, (int (*)(const void *, const void *))1) ==
+			     -1,
+		     "lista buscar posicion con NULL devuelve -1");
+	pa2m_afirmar(lista_con_cada_elemento(NULL, (bool (*)(void *, void *))1,
+					     NULL) == 0,
+		     "lista_con_cada_elemento con NULL devuelve 0");
+
+	lista_t *lista = lista_crear();
+	int x = 10;
+	(void)lista_agregar(lista, &x);
+	pa2m_afirmar(lista_buscar_posicion(lista, &x, NULL) == -1,
+		     "lista_buscar_posicion con comparador NULL devuelve -1");
+
+	size_t cantidad = lista_cantidad(lista);
+	pa2m_afirmar(lista_insertar(lista, &x, cantidad + 10) == false,
+		     "Insertar fuera de rango devuelve false");
+	pa2m_afirmar(lista_cantidad(lista) == cantidad,
+		     "La cantidad de elementos no cambio");
+
+	lista_t *lista_vacia = lista_crear();
+	pa2m_afirmar(lista_eliminar_elemento(lista_vacia, 0) == NULL,
+		     "Eliminar de lista vacia devuelve NULL");
+	pa2m_afirmar(lista_buscar_elemento(lista_vacia, 0) == NULL,
+		     "Buscar en lista vacia devuelve NULL");
+	lista_destruir(lista_vacia);
+
+	pa2m_afirmar(lista_buscar_elemento(lista, 100) == NULL,
+		     "Buscar fuera de rango devuelve NULL");
+	pa2m_afirmar(lista_con_cada_elemento(lista, NULL, NULL) == 0,
+		     "lista_con_cada_elemento con funcion NULL devuelve NULL");
+
+	lista_destruir(lista);
+}
+
+void pruebas_iterador_errores()
+{
+	lista_iterador_t *it = lista_iterador_crear(NULL);
+	pa2m_afirmar(it == NULL, "iterador creado con NULL devuelve NULL");
+	pa2m_afirmar(
+		lista_iterador_hay_mas_elementos(NULL) == false,
+		"lista_iterador_hay_mas_elementos con NULL devuelve false");
+	lista_iterador_siguiente(NULL);
+	pa2m_afirmar(lista_iterador_obtener_actual(NULL) == NULL,
+		     "lista_iterador_obtener_actual con NULL devuelve NULL");
+
+	lista_t *lista = lista_crear();
+	it = lista_iterador_crear(lista);
+	pa2m_afirmar(it != NULL,
+		     "Iterador sobre lista vacia se crea correctamente");
+	pa2m_afirmar(lista_iterador_hay_mas_elementos(it) == false,
+		     "No hay mas elementos para iterar");
+	pa2m_afirmar(lista_iterador_obtener_actual(it) == NULL,
+		     "actual en lista vacia es NULL");
+
+	lista_destruir(lista);
+}
+
+void pruebas_pila_errores()
+{
+	int x = 0;
+	void *p = &x;
+	pa2m_afirmar(pila_apilar(NULL, p) == false,
+		     "apilar en pila NULL devuelve false");
+	pa2m_afirmar(pila_desapilar(NULL) == NULL,
+		     "desapilar en pila NULL devuelve NULL");
+	pa2m_afirmar(pila_ver_primero(NULL) == NULL,
+		     "el primero de pila NULL devuelve NULL");
+	pa2m_afirmar(pila_cantidad(NULL) == 0, "la cantidad de pila NULL es 0");
+	pila_destruir(NULL);
+
+	pila_t *pila = pila_crear();
+	pa2m_afirmar(pila != NULL, "pila_crear crear una pila");
+	pa2m_afirmar(pila_ver_primero(pila) == NULL,
+		     "ver primero en vacia devuelve NULL");
+	pa2m_afirmar(pila_desapilar(pila) == NULL,
+		     "desapilar en vacia devuelve NULL");
+	pa2m_afirmar(pila_cantidad(pila) == 0, "cantidad en vacia devuelve 0");
+	pila_destruir(pila);
+}
+
+void pruebas_cola_errores()
+{
+	int x = 0;
+	void *p = &x;
+	pa2m_afirmar(cola_encolar(NULL, p) == false,
+		     "encolar en cola NULL devuelve false");
+	pa2m_afirmar(cola_desencolar(NULL) == NULL,
+		     "desencolar en cola NULL devuelve NULL");
+	pa2m_afirmar(cola_ver_primero(NULL) == NULL,
+		     "el primero de cola NULL devuelve NULL");
+	pa2m_afirmar(cola_cantidad(NULL) == 0, "la cantidad de cola NULL es 0");
+	cola_destruir(NULL);
+
+	cola_t *cola = cola_crear();
+	pa2m_afirmar(cola != NULL, "cola_crear crear una cola");
+	pa2m_afirmar(cola_ver_primero(cola) == NULL,
+		     "ver primero en vacia devuelve NULL");
+	pa2m_afirmar(cola_desencolar(cola) == NULL,
+		     "desencolar en vacia devuelve NULL");
+	pa2m_afirmar(cola_cantidad(cola) == 0, "cantidad en vacia devuelve 0");
+	cola_destruir(cola);
+}
+
 void prueba_lista_crear()
 {
 	lista_t *lista = lista_crear();
@@ -232,6 +353,18 @@ void pruebas_de_cola()
 
 int main()
 {
+	pa2m_nuevo_grupo("Pruebas manejo de errores de lista");
+	pruebas_lista_errores();
+
+	pa2m_nuevo_grupo("Pruebas manejo de errores del iterador externo");
+	pruebas_iterador_errores();
+
+	pa2m_nuevo_grupo("Pruebas manejo de errores de pila");
+	pruebas_pila_errores();
+
+	pa2m_nuevo_grupo("Pruebas manejo de errores de cola");
+	pruebas_cola_errores();
+
 	pa2m_nuevo_grupo("============== LISTA ===============");
 	prueba_lista_crear();
 	pruebas_lista_agregar_y_buscar();

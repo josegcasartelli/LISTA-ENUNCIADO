@@ -66,10 +66,7 @@ bool lista_agregar(lista_t *lista, void *dato)
 
 bool lista_insertar(lista_t *lista, void *elemento, size_t posicion)
 {
-	if (!lista)
-		return false;
-
-	if (lista->cantidad == 0 || posicion > lista->cantidad)
+	if (!lista || lista->cantidad == 0 || posicion > lista->cantidad)
 		return false;
 
 	if (posicion == lista->cantidad)
