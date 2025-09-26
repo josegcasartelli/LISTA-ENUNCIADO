@@ -76,6 +76,7 @@ void pruebas_iterador_errores()
 		     "actual en lista vacia es NULL");
 
 	lista_destruir(lista);
+	lista_iterador_destruir(it);
 }
 
 void pruebas_pila_errores()
